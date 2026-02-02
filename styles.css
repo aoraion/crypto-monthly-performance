@@ -64,9 +64,10 @@ body {
 }
 
 .header-logo {
-  position: absolute;
-  top: 1.5rem;
-  left: 1.5rem;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 1000;
 }
 
 .header-logo img {
@@ -89,11 +90,11 @@ body {
     padding-top: 4.5rem;
   }
   .header-logo {
-    top: 1rem;
-    left: 1rem;
+    top: 0.75rem;
+    left: 0.75rem;
   }
   .header-logo img {
-    height: 40px;
+    height: 35px;
   }
 }
 
