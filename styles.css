@@ -85,7 +85,7 @@ body {
   text-align: center;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .header {
     display: flex;
     flex-direction: column;
@@ -94,8 +94,8 @@ body {
     padding: 1.5rem 1rem;
   }
   .header-logo {
-    position: static;
-    z-index: auto;
+    position: static !important;
+    z-index: auto !important;
   }
   .header-logo img {
     height: 45px;
