@@ -1123,3 +1123,50 @@ body {
   padding: 0.2rem 0.5rem;
   border-radius: 4px;
 }
+
+/* Mobile Fixes */
+@media (max-width: 768px) {
+  /* Forecast table scrolling */
+  .forecast-card .card-body {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .forecast-table {
+    min-width: 600px;
+  }
+  
+  /* Seasonality Insights 2x2 grid */
+  .insights-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+/* Row highlighting feature */
+.heatmap-row-dimmed {
+  opacity: 0.3;
+  transition: opacity 0.3s ease;
+}
+
+.heatmap-row-highlighted {
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+/* Make cycle labels clickable */
+.heatmap-cycle {
+  cursor: pointer;
+}
+
+.heatmap-cycle:hover {
+  filter: brightness(1.2);
+}
+
+/* Make year labels clickable */
+.heatmap-year {
+  cursor: pointer;
+}
+
+.heatmap-year:hover {
+  filter: brightness(1.2);
+}

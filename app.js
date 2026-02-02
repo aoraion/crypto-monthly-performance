@@ -14,6 +14,8 @@ let showVolatility = false;
 let yoyShowVolatility = false; // YoY comparison volatility toggle
 let useMedian = false;
 let selectedCycleType = null; // For cycle overlay buttons
+let highlightedCycle = null; // For heatmap row highlighting
+let highlightedYear = null; // For heatmap single year highlighting
 let forecastData = null; // TBT Forecaster data
 
 // Market cycle phases by year - FIXED: 2026 is Bottom year
@@ -388,7 +390,7 @@ function renderHeatmap() {
   html += '<div class="heatmap-header heatmap-gr-header">G/R</div>';
   
   // Summary row (average or median based on toggle)
-  const summaryLabel = useMedian ? 'Median' : 'Avg';
+  const summaryLabel = useMedian ? 'Med' : 'Avg';
   const summaryData = useMedian ? assetData.median : assetData.average;
   
   html += '<div class="heatmap-cycle heatmap-summary-row"></div>';
@@ -418,12 +420,12 @@ function renderHeatmap() {
     const cyclePhase = marketCycles[year] || '';
     const greenRed = assetData.greenRedData[year] || { green: 0, red: 0 };
     
-    // Cycle column
+    // Cycle column (clickable for highlighting)
     const cycleClass = cyclePhase ? `cycle-${cyclePhase.toLowerCase()}` : '';
-    html += `<div class="heatmap-cycle ${cycleClass}">${cyclePhase}</div>`;
+    html += `<div class="heatmap-cycle ${cycleClass}" data-cycle="${cyclePhase}" data-row-year="${year}">${cyclePhase}</div>`;
     
-    // Year column
-    html += `<div class="heatmap-year ${isHalvingYear ? 'halving-year' : ''}">${year}</div>`;
+    // Year column (clickable for highlighting)
+    html += `<div class="heatmap-year ${isHalvingYear ? 'halving-year' : ''}" data-row-year="${year}">${year}</div>`;
     
     // Month cells
     for (let m = 1; m <= 12; m++) {
@@ -439,7 +441,9 @@ function renderHeatmap() {
              style="background: ${bgColor}; color: ${textColor}"
              data-year="${year}"
              data-month="${m}"
-             data-value="${value !== null && value !== undefined ? value : ''}">
+             data-value="${value !== null && value !== undefined ? value : ''}"
+             data-row-year="${year}"
+             data-cycle="${cyclePhase}">
           <span class="value">${displayVal !== '—' ? (value > 0 ? '+' : '') + displayVal + '%' : '—'}</span>
         </div>
       `;
@@ -447,7 +451,7 @@ function renderHeatmap() {
     
     // Green/Red column - no empty cell below header
     html += `
-      <div class="heatmap-gr">
+      <div class="heatmap-gr" data-row-year="${year}" data-cycle="${cyclePhase}">
         <span class="gr-green">${greenRed.green}</span>/<span class="gr-red">${greenRed.red}</span>
       </div>
     `;
@@ -1341,6 +1345,79 @@ function setupEventListeners() {
   document.getElementById('heatmap').addEventListener('mouseout', (e) => {
     if (e.target.classList.contains('heatmap-cell')) {
       tooltip.classList.remove('visible');
+    }
+  });
+  
+  // Heatmap row highlighting - click on cycle or year
+  document.getElementById('heatmap').addEventListener('click', (e) => {
+    const target = e.target;
+    
+    // Click on cycle label
+    if (target.classList.contains('heatmap-cycle') && target.dataset.cycle) {
+      const clickedCycle = target.dataset.cycle;
+      
+      // Toggle - if same cycle clicked, clear highlight
+      if (highlightedCycle === clickedCycle) {
+        highlightedCycle = null;
+        highlightedYear = null;
+      } else {
+        highlightedCycle = clickedCycle;
+        highlightedYear = null;
+      }
+      
+      applyRowHighlighting();
+      return;
+    }
+    
+    // Click on year label
+    if (target.classList.contains('heatmap-year') && target.dataset.rowYear) {
+      const clickedYear = target.dataset.rowYear;
+      
+      // Toggle - if same year clicked, clear highlight
+      if (highlightedYear === clickedYear) {
+        highlightedYear = null;
+        highlightedCycle = null;
+      } else {
+        highlightedYear = clickedYear;
+        highlightedCycle = null;
+      }
+      
+      applyRowHighlighting();
+      return;
+    }
+  });
+}
+
+// Apply row highlighting based on highlightedCycle or highlightedYear
+function applyRowHighlighting() {
+  const allElements = document.querySelectorAll('#heatmap [data-row-year]');
+  
+  if (!highlightedCycle && !highlightedYear) {
+    // Clear all highlighting
+    allElements.forEach(el => {
+      el.classList.remove('heatmap-row-dimmed', 'heatmap-row-highlighted');
+    });
+    return;
+  }
+  
+  allElements.forEach(el => {
+    const elCycle = el.dataset.cycle;
+    const elYear = el.dataset.rowYear;
+    
+    let shouldHighlight = false;
+    
+    if (highlightedCycle) {
+      shouldHighlight = elCycle === highlightedCycle;
+    } else if (highlightedYear) {
+      shouldHighlight = elYear === highlightedYear;
+    }
+    
+    if (shouldHighlight) {
+      el.classList.remove('heatmap-row-dimmed');
+      el.classList.add('heatmap-row-highlighted');
+    } else {
+      el.classList.remove('heatmap-row-highlighted');
+      el.classList.add('heatmap-row-dimmed');
     }
   });
 }
