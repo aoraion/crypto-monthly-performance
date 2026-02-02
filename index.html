@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Better Crypto Calendar | TBT</title>
+  <title>the Better Crypto Calendar | TBT</title>
   <meta name="description" content="The Better Crypto Calendar - Interactive historical monthly performance analysis for Bitcoin, Ethereum, and altcoins. Visualize seasonality patterns, halving cycles, and win rates.">
   
   <!-- Fonts -->
@@ -26,8 +26,13 @@
   
   <!-- Header -->
   <header class="header">
-    <h1>The Better Crypto Calendar</h1>
-    <p class="subtitle">Historical Returns Analysis • Seasonality • Halving Cycles</p>
+    <a href="https://thebettertraders.com" target="_blank" class="header-logo">
+      <img src="tbt-logo.png" alt="The Better Traders" />
+    </a>
+    <div class="header-text">
+      <h1>the Better Crypto Calendar</h1>
+      <p class="subtitle">Historical Returns Analysis • Seasonality • Halving Cycles</p>
+    </div>
   </header>
   
   <!-- Asset Selector -->
@@ -173,6 +178,48 @@
         <div class="comparison-chart">
           <canvas id="comparisonChart"></canvas>
         </div>
+      </div>
+    </section>
+    
+    <!-- Bitcoin Cycle Pattern -->
+    <section class="card cycle-pattern-card">
+      <div class="card-header">
+        <h2>The 4-Year Bitcoin Cycle</h2>
+      </div>
+      <div class="card-body">
+        <p class="cycle-intro">
+          Bitcoin follows a predictable 4-year cycle pattern aligned with each new year. Understanding this pattern helps simplify your long-term strategy:
+        </p>
+        <div class="cycle-phases">
+          <div class="cycle-phase phase-top">
+            <div class="phase-icon">🔺</div>
+            <h3>Top Year</h3>
+            <p>The year Bitcoin heads toward its cycle peak. Historically occurs ~11 months into the year.</p>
+            <span class="phase-years">2018, 2022, 2026...</span>
+          </div>
+          <div class="cycle-phase phase-bottom">
+            <div class="phase-icon">🔻</div>
+            <h3>Bottom Year</h3>
+            <p>The descent to the cycle low. Capitulation and accumulation phase.</p>
+            <span class="phase-years">2019, 2023, 2027...</span>
+          </div>
+          <div class="cycle-phase phase-recovery">
+            <div class="phase-icon">📈</div>
+            <h3>Recovery Year</h3>
+            <p>Slow and steady recovery from the bottom. Building momentum for the next rally.</p>
+            <span class="phase-years">2020, 2024, 2028...</span>
+          </div>
+          <div class="cycle-phase phase-rally">
+            <div class="phase-icon">🚀</div>
+            <h3>Rally Year</h3>
+            <p>The explosive rally phase. Maximum opportunity and optimism.</p>
+            <span class="phase-years">2021, 2025, 2029...</span>
+          </div>
+        </div>
+        <p class="cycle-source">
+          This pattern was shared by <a href="https://www.youtube.com/@TheBetterTraders" target="_blank">The Better Traders</a> in December 2024 and has accurately marked the market phases, including the 2025 rally year.
+          <a href="https://youtu.be/FGgGBrOepEE" target="_blank" class="watch-video">📺 Watch the full explanation</a>
+        </p>
       </div>
     </section>
     
